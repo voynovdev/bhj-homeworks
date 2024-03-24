@@ -45,7 +45,9 @@ function updateBoard() {
 		if (getHole.className.includes(`hole_has-mole`)) {
 			getHole.onclick = () => {
 				onHoleClickWin();
+				getHole.onclick = null;
 			}
+			
 			index = 1;
 			break
 		} else {
