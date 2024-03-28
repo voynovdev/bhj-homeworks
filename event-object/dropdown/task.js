@@ -18,5 +18,6 @@ for (let i = 0; i <= 3; i++) {
 	arrayLi[i].addEventListener("click",
 		function() {
 			startBox.textContent = arrayLinks[i].textContent;
+			list.className = "dropdown__list";
 		});
 }
