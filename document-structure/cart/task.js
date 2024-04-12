@@ -24,37 +24,22 @@ incBtn.forEach(element => {
 
 backetBtn.forEach(element => {
 	element.addEventListener(`click`, () => {
-		const outerElem = document.createElement(`div`);
-		const imgElem = document.createElement(`img`);
-		const innerElem = document.createElement(`div`);
-
-
-		outerElem.classList.add(`cart__product`);
-		imgElem.classList.add(`cart__product-image`);
-		innerElem.classList.add(`cart__product-count`);
-		outerElem.setAttribute(`data-id`, `${element.closest(`.product`).getAttribute(`data-id`)}`);
-		productId = element.closest(`.product`).getAttribute(`data-id`);
-		outerElem.innerHTML = `
-                <img class="cart__product-image" src="${element.closest(`.product`).children[1].src}">
-                <div class="cart__product-count">${element.previousElementSibling.children[1].textContent}</div>`;
-
-		const cartProducts = document.querySelectorAll('.cart__product')
-
-		if (cartProducts.length < 1) {
-			backet.insertAdjacentElement(`beforeend`, outerElem);
-		}
-
-		let foundInCart = false;
-		for (let i = 0; i < cartProducts.length; i++) {
-			if (cartProducts[i].getAttribute(`data-id`) === element.closest(`.product`).getAttribute(`data-id`)) {
-				cartProducts[i].children[1].textContent = Number(cartProducts[i].children[1].textContent) + Number(element.previousElementSibling.children[1].textContent);
-				foundInCart = true;
-				break;
-			}
-		}
-
-		if (!foundInCart) {
-			backet.insertAdjacentElement(`beforeend`, outerElem);
+		const dataId = element.closest(`.product`).getAttribute(`data-id`),
+			  src = element.closest(`.product`).children[1].src,
+			  count = element.previousElementSibling.children[1].textContent;
+		
+		const productId = element.closest(`.product`).getAttribute(`data-id`);
+		const cartProducts = Array.from(document.querySelectorAll('.cart__product'))
+		const productInCard = cartProducts.find(card => card.getAttribute(`data-id`) === productId)
+		if(productInCard) {
+			productInCard.lastElementChild.textContent = Number(productInCard.lastElementChild.textContent) + Number(element.previousElementSibling.children[1].textContent);
+		} else {
+			backet.insertAdjacentHTML(`beforeend`, `
+			<div class="cart__product" data-id="${dataId}">
+				<img class="cart__product-image" src="${src}">
+				<div class="cart__product-count">${count}</div>
+			</div>
+			`)
 		}
 	})
 })
