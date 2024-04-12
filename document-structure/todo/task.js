@@ -4,24 +4,18 @@ const taskList = document.querySelector(`.tasks__list`);
 
 btn.addEventListener(`click`, (e)=>{
     e.preventDefault();
-
-    const outerElem = document.createElement(`div`);
-    const innerElem = document.createElement(`div`);
-    const removeElem = document.createElement(`a`);
-
-    outerElem.classList.add(`task`);
-    innerElem.classList.add(`task__title`);
-    removeElem.setAttribute("href", "#")
-    removeElem.classList.add(`task__remove`);
-    removeElem.textContent = `×`;
-    innerElem.textContent = input.value;
-    
-
-    taskList.insertAdjacentElement(`beforeend`, outerElem);
-    outerElem.insertAdjacentElement(`beforeend`, innerElem);
-    outerElem.insertAdjacentElement(`beforeend`, removeElem);
-
-    input.value = ``;
+    if (input.value !== ``) {
+      taskList.insertAdjacentHTML(`beforeend`,`
+      <div class="task">
+        <div class="task__title">
+          ${input.value}
+        </div>
+        <a href="#" class="task__remove">×</a>
+      </div>`)
+      input.value = ``;
+    } else {
+      alert("Поле ввода пустое")
+    }
 })
 
 document.addEventListener('click', function(event) {
